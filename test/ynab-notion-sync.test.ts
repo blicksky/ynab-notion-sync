@@ -1,17 +1,21 @@
-// import * as cdk from 'aws-cdk-lib';
-// import { Template } from 'aws-cdk-lib/assertions';
-// import * as YnabNotionSync from '../lib/ynab-notion-sync-stack';
+import * as cdk from 'aws-cdk-lib';
+import { Template } from 'aws-cdk-lib/assertions';
+import * as YnabNotionSyncConstruct from '../lib/ynab-notion-sync-construct';
+import { default as getMajorVersion } from 'semver/functions/major';
 
-// example test. To run these tests, uncomment this file along with the
-// example resource in lib/ynab-notion-sync-stack.ts
-test('SQS Queue Created', () => {
-//   const app = new cdk.App();
-//     // WHEN
-//   const stack = new YnabNotionSync.YnabNotionSyncStack(app, 'MyTestStack');
-//     // THEN
-//   const template = Template.fromStack(stack);
+test('lambda function runtime matches volta', () => {
+    // given
+    const app = new cdk.App();
+    const { volta } = require('../package.json');
+ 
+    // when
+    const stack = new YnabNotionSyncConstruct.YnabNotionSyncStack(app, 'YnabNotionSyncStack');
+    
+    // then
+    const template = Template.fromStack(stack);
+    const voltaNodeMajorVersion = getMajorVersion(volta.node)
 
-//   template.hasResourceProperties('AWS::SQS::Queue', {
-//     VisibilityTimeout: 300
-//   });
+    template.hasResourceProperties('AWS::Lambda::Function', {
+        Runtime: `nodejs${voltaNodeMajorVersion}.x`
+    });
 });
