@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import 'source-map-support/register';
 import * as cdk from 'aws-cdk-lib';
-import { YnabNotionSyncStack } from '../lib/ynab-notion-sync-stack';
+import { YnabNotionSyncStack } from '../lib/ynab-notion-sync-construct';
 
 const app = new cdk.App();
 new YnabNotionSyncStack(app, 'YnabNotionSyncStack', {
