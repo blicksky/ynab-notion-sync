@@ -1,4 +1,5 @@
 import { Stack, StackProps, aws_lambda as lambda } from 'aws-cdk-lib';
+import { Effect, PolicyStatement } from 'aws-cdk-lib/aws-iam';
 import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
 import { Construct } from 'constructs';
 
@@ -13,5 +14,14 @@ export class YnabNotionSyncStack extends Stack {
         sourceMap: true
       }
     });
+
+    apiHandler.role?.addToPrincipalPolicy(new PolicyStatement({
+      effect: Effect.ALLOW,
+      actions: ['ssm:GetParameter'],
+      resources: [Stack.of(this).formatArn({
+        service: 'ssm',
+        resource: 'parameter/ynabPersonalAccessToken'
+      })]
+    }))
   }
 }
