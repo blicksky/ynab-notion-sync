@@ -8,7 +8,7 @@ export class YnabNotionSyncStack extends Stack {
     super(scope, id, props);
 
     const apiHandler = new NodejsFunction(this, 'hello-world', {
-      runtime: lambda.Runtime.NODEJS_16_X,
+      runtime: lambda.Runtime.NODEJS_20_X,
       bundling: {
         minify: true,
         sourceMap: true
